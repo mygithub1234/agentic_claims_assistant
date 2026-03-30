@@ -1,45 +1,32 @@
-# Adjuster Assistant (Commercial Property) — Agentic RAG + Custom Chunking
+# agentic_adjuster_assistant — Adjuster Assistant (Commercial Property)
+**Agentic RAG + Custom Chunking + Custom Embeddings + Persistent Chroma (Colab + Google Drive)**
 
-A portfolio-grade **insurance claims & policy copilot** that helps adjusters **summarize claims**, **retrieve relevant policy clauses**, and **produce citation-ready answers** using **custom chunking + custom embeddings** stored in a persistent **Chroma** vector store.
-
-This project is designed to run smoothly in **Google Colab** (with persistence via Google Drive) and later evolve into a deployable service (ECS/EKS/Lambda) with model backends like OpenAI now and Bedrock later.
-
----
-
-## What it does
-
-✅ **Ingest policy PDFs** (Declarations, Base Form, Endorsements)  
-✅ **Ingest claim PDFs** (FNOL, adjuster notes, estimates/invoices)  
-✅ Apply **custom chunking strategies**:
-- Policies: **section/clause-aware chunking** (Definitions / Coverage / Exclusions / Conditions)
-- Claims: **doc-type aware chunking** (notes split by entry, others by headings/tables)
-✅ Create **OpenAI embeddings** (explicit call — not managed vector-store embedding)  
-✅ Store chunks + metadata in **Chroma (persistent)**  
-✅ Retrieve by semantic similarity + **metadata filters** for correctness and citations
+A portfolio-grade **insurance claims & policy copilot** that helps adjusters:
+- ingest **commercial property** policy docs (Dec Page, Base Form, Endorsements)
+- ingest **claim docs** (FNOL, adjuster notes, estimates/invoices)
+- apply **custom chunking** (policy clause/section-aware; claim doc-type aware)
+- create **custom embeddings** (explicit embeddings API call)
+- store and query everything via a **persistent Chroma vector store**
+- retrieve **citation-ready** evidence using metadata filters (policy_id, claim_id, doc_id, version, page, section)
 
 ---
 
-## Why this is “enterprise-shaped”
-
-- **Metadata-first correctness** (policy_id/state/version/effective_date; claim_id/doc_type)
-- **Custom chunking** tuned for insurance documents
-- **Re-ingestion support** (delete old chunks by doc_id + doc_version)
-- **Citation-ready retrieval**: doc_id + page + section + chunk_id per result
+## Why this project is interview-ready
+- ✅ **Custom chunking strategy** (domain-aware; not “default chunking”)
+- ✅ **Custom embeddings pipeline** (explicit embedding calls; not managed embedding)
+- ✅ **Metadata-first correctness** (versioning, jurisdiction/state, doc types)
+- ✅ **Re-ingestion support** (delete old doc vectors by doc_id + doc_version)
+- ✅ **Citations** (doc_id + page + section + chunk_id)
 
 ---
 
 ## Repo layout
 
-
 ---
 
 ## Quickstart (Google Colab + Google Drive)
 
-### 1) Mount Drive and set repo path
-
+### 1) Mount Drive
 ```python
 from google.colab import drive
 drive.mount("/content/drive")
-
-REPO = "/content/drive/MyDrive/Agentic AI Projects/agentic_adjuster_assistant"
-%cd "{REPO}"
